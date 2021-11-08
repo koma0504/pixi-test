@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<script src="https://pixijs.download/release/pixi.js"></script>
+
+<head>
+</head>
+
+<body>
+  <header>header</header>
+  <main>
+    <section class="sec1"></section>
+    <section class="sec2"></section>
+    <section class="sec3"></section>
+  </main>
+  <footer>footer</footer>
+  <script>
+    //sec1
+    const sec1 = document.querySelector(".sec1")
+
+    let app1 = new PIXI.Application({ width: 640, height: 100, });
+    sec1.appendChild(app1.view);
+    console.log("app1", app1)
+    console.log("app1.view", app1.view)
+    let sprite = PIXI.Sprite.from('dog.jpg');
+    app1.stage.addChild(sprite);
+    let elapsed = 0.0;
+    app1.ticker.add((delta) => {
+      elapsed += delta;
+      sprite.x = 100.0 + Math.cos(elapsed / 50.0) * 100.0;
+    })
+    //sec2
+    const app2 = new PIXI.Application({
+      width: 400, height: 400, backgroundColor: 0x1099bb, resolution: window.devicePixelRatio || 1,
+    });
+    const sec2 = document.querySelector(".sec2")
+    sec2.appendChild(app2.view);
+    const container = new PIXI.Container();
+    app2.stage.addChild(container);
+
+    const texture = PIXI.Texture.from("dog.jpg")
+
+    for (let i = 0; i < 25; i++) {
+      const bunny = new PIXI.Sprite(texture);
+      bunny.anchor.set(0.5);
+      bunny.x = (i % 5) * 40;
+      bunny.y = Math.floor(i / 5) * 40;
+      container.addChild(bunny);
+    }
+
+    container.x = app2.screen.width / 2;
+    container.y = app2.screen.height / 2;
+
+    container.pivot.x = container.width / 2;
+    container.pivot.y = container.height / 2;
+
+    app2.ticker.add((delta) => {
+      container.rotation -= 0.01 * delta;
+    });
+
+    let app3 = new PIXI.Application({ width: 640, height: 100, });
+    const sec3 = document.querySelector(".sec3")
+    sec3.appendChild(app3.view);
+
+    let obj = new PIXI.Graphics();
+    obj.beginFill(0xff0000);
+    obj.drawRect(0, 0, 200, 100);
+
+    app3.stage.addChild(obj)
+  </script>
+
+</body>
+
+</html>
